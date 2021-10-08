@@ -1,21 +1,51 @@
 ---
-title: "Simple document"
-output: html_document
+title: "Data Import Lecture"
+output: github_document
 ---
 
-I'm an R Markdown document! 
-
-# Section 1
-
-Here's a **code chunk** that samples from 
-a _normal distribution_:
-
-```{r}
-samp = rnorm(100)
-length(samp)
+```{r, echo = FALSE, message = FALSE}
+library(tidyverse)
 ```
 
-# Section 2
+## Import some data
 
-I can take the mean of the sample, too!
-The mean is `r mean(samp)`.
+I want to import `FAS_litters.csv`.
+
+```{r}
+litters_df = read_csv("data/FAS_litters.csv") #relative path
+```
+
+I imported the dataset. Now I want better variable names.
+```{r}
+names(litters_df)
+
+litters_df = janitor::clean_names(litters_df)
+```
+
+Now I have better names. Let's look at the dataset.
+
+```{r} 
+#printing the tibble: shows first 10 rows, how many more rows, variables, variable types, highlights NAs in red
+litters_df 
+
+head(litters_df, 20) # print the first 20 rows
+tail(litters_df) # should check there are no empty rows after importing
+```
+
+A useful function to pull up the entire dataset in a new window, not output:
+
+```{r, eval = FALSE}
+view(litters_df) # make sure you do eval = FALSE or do this in the command line
+```
+
+'skimr' tells you how many rows, columns, how many character vs. numeric vs. factors, how many variables are complete or missing rate, min and max group size, how many unique values, prints histogram of numeric variables and basic descriptive stats
+
+```{r}
+skimr::skim(litters_df)
+```
+
+
+
+
+
+
