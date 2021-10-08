@@ -222,3 +222,11 @@ There are also ways to read Stata, SPSS, MatLab, etc.
 ``` r
 pulse_df = read_sas("data/public_pulse_data.sas7bdat")
 ```
+
+## Why to never use `read.csv`:
+
+-   It imports as a dataframe instead of a tibble. Tibbles print nicer.
+
+``` r
+litters_df_base = read.csv("data/FAS_litters.csv")
+```
