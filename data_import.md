@@ -217,7 +217,8 @@ fellow_df = read_excel("data/LotR_Words.xlsx", range = "B3:D6")
 
 ## Read a SAS file
 
-There are also ways to read Stata, SPSS, MatLab, etc.
+Comes from Haven package. There are also ways to read Stata, SPSS,
+MatLab, etc.
 
 ``` r
 pulse_df = read_sas("data/public_pulse_data.sas7bdat")
@@ -229,4 +230,12 @@ pulse_df = read_sas("data/public_pulse_data.sas7bdat")
 
 ``` r
 litters_df_base = read.csv("data/FAS_litters.csv")
+```
+
+## Exporting Data
+
+use `write_csv`
+
+``` r
+write_csv(fellow_df, "data/fellowship_words.csv")
 ```
