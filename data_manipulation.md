@@ -594,3 +594,107 @@ arrange(litters_df, gd_of_birth, gd0_weight) # arranging by multiple things
     ## 10 Con7  #1/2/95/2           27          42            19               8
     ## # ... with 39 more rows, and 2 more variables: pups_dead_birth <dbl>,
     ## #   pups_survive <dbl>
+
+## Pipes
+
+Applying multiple steps in sequence
+
+Doing it one line at a time:
+
+``` r
+litters_data_raw = read_csv("data/FAS_litters.csv")
+```
+
+    ## Rows: 49 Columns: 8
+
+    ## -- Column specification --------------------------------------------------------
+    ## Delimiter: ","
+    ## chr (2): Group, Litter Number
+    ## dbl (6): GD0 weight, GD18 weight, GD of Birth, Pups born alive, Pups dead @ ...
+
+    ## 
+    ## i Use `spec()` to retrieve the full column specification for this data.
+    ## i Specify the column types or set `show_col_types = FALSE` to quiet this message.
+
+``` r
+litters_clean_name = janitor::clean_names(litters_data_raw)
+litters_select = select(litters_clean_name, group, pups_survive)
+litters_filtered = filter(litters_select, group == "Con7")
+```
+
+With pipes, not creating extra intermediate objects at each step:
+
+``` r
+litters_df = 
+  read_csv("data/FAS_litters.csv") %>% 
+  janitor::clean_names() %>% 
+  select(group, pups_survive) %>% 
+  filter(group == "Con7")
+```
+
+    ## Rows: 49 Columns: 8
+
+    ## -- Column specification --------------------------------------------------------
+    ## Delimiter: ","
+    ## chr (2): Group, Litter Number
+    ## dbl (6): GD0 weight, GD18 weight, GD of Birth, Pups born alive, Pups dead @ ...
+
+    ## 
+    ## i Use `spec()` to retrieve the full column specification for this data.
+    ## i Specify the column types or set `show_col_types = FALSE` to quiet this message.
+
+Another example:
+
+``` r
+litters_df = 
+  read_csv("data/FAS_litters.csv") %>% 
+  janitor::clean_names() %>% 
+  select(-pups_survive) %>% 
+  mutate(
+    weight_change = gd18_weight - gd0_weight,
+    group = str_to_lower(group)
+  ) %>% 
+  drop_na(weight_change) %>% 
+  filter(group %in% c("con7", "con8")) %>% 
+  select(litter_number, group, weight_change, everything())
+```
+
+    ## Rows: 49 Columns: 8
+
+    ## -- Column specification --------------------------------------------------------
+    ## Delimiter: ","
+    ## chr (2): Group, Litter Number
+    ## dbl (6): GD0 weight, GD18 weight, GD of Birth, Pups born alive, Pups dead @ ...
+
+    ## 
+    ## i Use `spec()` to retrieve the full column specification for this data.
+    ## i Specify the column types or set `show_col_types = FALSE` to quiet this message.
+
+## Learning Assessment
+
+Write a chain of commands that:
+
+-   loads the pups data
+-   cleans the variable names
+-   filters the data to include only pups with sex 1
+-   removes the PD ears variable
+-   creates a variable that indicates whether PD pivot is 7 or more days
+
+``` r
+la_data = read_csv("data/FAS_pups.csv") %>% 
+  janitor::clean_names() %>% 
+  filter(sex == 1) %>% 
+  select(-pd_ears) %>% 
+  mutate(pivot_gt7 = pd_pivot > 7)
+```
+
+    ## Rows: 313 Columns: 6
+
+    ## -- Column specification --------------------------------------------------------
+    ## Delimiter: ","
+    ## chr (1): Litter Number
+    ## dbl (5): Sex, PD ears, PD eyes, PD pivot, PD walk
+
+    ## 
+    ## i Use `spec()` to retrieve the full column specification for this data.
+    ## i Specify the column types or set `show_col_types = FALSE` to quiet this message.
