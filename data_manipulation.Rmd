@@ -90,6 +90,39 @@ drop_na(litters_df) # gets rid of rows with ANY missing data
 drop_na(litters_df, gd0_weight) # gets rid of rows only missing this variable
 ```
 
+Learning Assessment in the pups data:
+1. filter to include only pups with sex 1
+2. filter to include only pups with PD walk less than 11 and sex 2
+
+```{r}
+filter(pups_df, sex == 1)
+
+filter(pups_df, pd_walk < 11, sex == 2)
+```
+
+## `mutate`
+
+Adding or changing columns
+
+```{r}
+mutate(litters_df, 
+  weight_change = gd18_weight - gd0_weight,
+  group = str_to_lower(group)) # makes everything lowercase
+```
+
+## `arrange`
+
+Rearranging the data (reordering observations).
+
+```{r}
+arrange(litters_df, gd0_weight) # order observations by ascending gd0_weight
+
+arrange(litters_df, desc(gd0_weight)) # in descending order
+
+arrange(litters_df, gd_of_birth, gd0_weight) # arranging by multiple things
+```
+
+
 
 
 
