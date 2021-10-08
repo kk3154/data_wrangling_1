@@ -5,14 +5,62 @@ output: github_document
 
 ```{r, echo = FALSE, message = FALSE}
 library(tidyverse)
-
 ```
 
 ## Import some data
 
-I want to import `FAS_litters.csv`.
+Importing `FAS_litters.csv` and  clean up the variable names.
 
 ```{r}
-litters_df = read_csv("data/FAS_litters.csv") #relative path
+litters_df = read_csv("data/FAS_litters.csv")
+litters_df = janitor::clean_names(litters_df)
+
+pups_df = read_csv("data/FAS_pups.csv")
+pups_df = janitor::clean_names(pups_df)
 ```
+
+## `select` function
+
+Select only the columns you're interested in.
+
+```{r}
+select(litters_df, group, litter_number) # selects these variables
+
+select(litters_df, group, gd0_weight, gd18_weight) 
+
+select(litters_df, group, gd0_weight:gd_of_birth) # selects everything in range
+
+select(litters_df, -litter_number) # selects everything but litter_num
+
+select(litters_df, group) # selects the one variable, output = data frame
+
+#pull(litters_df, group) # selects the data from this one variable
+```
+
+Renaming Variables
+
+```{r}
+select(litters_df, group_new = group, litter_number) # renames a variable
+
+rename(litters_df, group_new2 = group) # another way to change column name
+```
+
+Relocating variables 
+
+```{r}
+select(litters_df, litter_number, everything()) # reorders just one, keeping everything else
+
+relocate(litters_df, litter_number) # alternate way
+```
+
+Learning assessment:
+In the pups data, select the columns containing litter number, sex, and PD ears.
+
+```{r}
+select(pups_df, litter_number, sex, pd_ears)
+```
+
+
+
+
 
