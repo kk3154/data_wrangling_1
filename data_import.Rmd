@@ -44,8 +44,42 @@ view(litters_df) # make sure you do eval = FALSE or do this in the command line
 skimr::skim(litters_df)
 ```
 
+## Arguments in `read_csv`
 
+```{r}
+litters_df = read_csv(
+  "data/FAS_litters.csv", 
+  skip = 5,   # useful if there are extra notes in some top rows
+  col_names = FALSE,
+  na = "Low8") # tell it that this should be missing and convert it to NA (making this up)
+```
 
+## Parsing Columns
+
+If you want to declare column types:
+
+```{r}
+litters_data = read_csv(file = "./data/FAS_litters.csv",
+  col_types = cols(
+    Group = col_character(),
+    `Litter Number` = col_character(),
+    `GD0 weight` = col_double(),
+    `GD18 weight` = col_double(),
+    `GD of Birth` = col_integer(),
+    `Pups born alive` = col_integer(),
+    `Pups dead @ birth` = col_integer(),
+    `Pups survive` = col_integer()
+  )
+)
+```
+
+Or to change just one column type, specify one at a time:
+
+```{r}
+litters_data = read_csv(file = "./data/FAS_litters.csv",
+  col_types = cols(`GD of Birth` = col_integer())
+)
+```
 
 
 
