@@ -30,3 +30,28 @@ pulse_tidy =
     visit = factor(visit) # converting visit variable to a factor
   )
 ```
+
+## pivot\_wider
+
+make up a results data table
+
+``` r
+analysis_df = 
+  tibble(
+    group = c("treatment", "treatment", "control", "control"),
+    time = c("a", "b", "a", "b"),
+    group_mean = c(4, 8, 3, 6) 
+  )
+
+analysis_df %>% 
+  pivot_wider(
+    names_from = "time",
+    values_from = "group_mean"
+  ) %>% 
+  knitr::kable() # function to make printing tables prettier
+```
+
+| group     |   a |   b |
+|:----------|----:|----:|
+| treatment |   4 |   8 |
+| control   |   3 |   6 |
